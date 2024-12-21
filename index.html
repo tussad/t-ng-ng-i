@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc mừng Giáng Sinh</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        body {
+            text-align: center;
+            background: url('https://cdn.pixabay.com/photo/2016/11/29/12/54/blur-1869737_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-top: 50px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+        p {
+            font-size: 1.4rem;
+            margin: 20px 0;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        }
+
+        .image-container {
+            margin-top: 30px;
+        }
+
+        .image-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .light {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            animation: twinkle 3s infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Chúc mừng Giáng Sinh 🎄</h1>
+    <p>Gửi đến người anh yêu nhất lời chúc Giáng Sinh an lành và hạnh phúc.</p>
+    <p>Mãi yêu em ♥️</p>
+
+    <div class="image-container">
+        <img src="2176ada124db43ad1a2f141c288c0c02.jpeg" alt="Hình ảnh Giáng Sinh">
+    </div>
+
+    <canvas id="snowCanvas"></canvas>
+
+    <div class="light" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+    <div class="light" style="top: 30%; left: 50%; animation-delay: 1s;"></div>
+    <div class="light" style="top: 70%; left: 80%; animation-delay: 2s;"></div>
+    <div class="light" style="top: 50%; left: 30%; animation-delay: 1.5s;"></div>
+
+    <script>
+        const canvas = document.getElementById('snowCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const snowflakes = [];
+
+        function createSnowflake() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 4 + 1,
+                speedX: Math.random() * 2 - 1,
+                speedY: Math.random() * 3 + 1,
+                opacity: Math.random() * 0.8 + 0.2,
+            };
+        }
+
+        for (let i = 0; i < 200; i++) {
+            snowflakes.push(createSnowflake());
+        }
+
+        function drawSnowflake(snowflake) {
+            ctx.beginPath();
+            ctx.arc(snowflake.x, snowflake.y, snowflake.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${snowflake.opacity})`;
+            ctx.fill();
+        }
+
+        function updateSnowflake(snowflake) {
+            snowflake.x += snowflake.speedX;
+            snowflake.y += snowflake.speedY;
+
+            if (snowflake.y > canvas.height) {
+                snowflake.y = -snowflake.radius;
+                snowflake.x = Math.random() * canvas.width;
+            }
+        }
+
+        function animateSnowfall() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            snowflakes.forEach((snowflake) => {
+                drawSnowflake(snowflake);
+                updateSnowflake(snowflake);
+            });
+
+            requestAnimationFrame(animateSnowfall);
+        }
+
+        animateSnowfall();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
